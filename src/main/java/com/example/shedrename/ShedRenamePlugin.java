@@ -3,6 +3,8 @@ package com.example.shedrename;
 import com.google.inject.Provides;
 import javax.inject.Inject;
 import net.runelite.api.Client;
+import net.runelite.api.MenuEntry;
+import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.Widget;
@@ -38,6 +40,25 @@ public class ShedRenamePlugin extends Plugin
         if (e.getGroupId() == InterfaceID.SHARED_BANK)
         {
             clientThread.invokeLater(this::applyRename);
+        }
+    }
+
+    @Subscribe
+    public void onMenuEntryAdded(MenuEntryAdded e)
+    {
+        MenuEntry entry = e.getMenuEntry();
+        String newName = config.newName();
+
+        String target = entry.getTarget();
+        if (target != null && target.contains(ORIGINAL_TITLE))
+        {
+            entry.setTarget(target.replace(ORIGINAL_TITLE, newName));
+        }
+
+        String option = entry.getOption();
+        if (option != null && option.contains(ORIGINAL_TITLE))
+        {
+            entry.setOption(option.replace(ORIGINAL_TITLE, newName));
         }
     }
 
