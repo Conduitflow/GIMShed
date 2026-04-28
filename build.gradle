@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = 'https://repo.runelite.net' }
+}
+
+def runeLiteVersion = '1.12.24'
+
+dependencies {
+    compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+}
+
+group = 'com.example.shedrename'
+version = '1.0.0'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
